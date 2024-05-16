@@ -7,6 +7,7 @@ from typing import List, Tuple
 import mysql.connector
 from mysql.connector.connection import MySQLConnection
 
+
 def filter_datum(fields: List[str], redaction: str, message: str,
                  separator: str) -> str:
     """filter_datum returns the log message obfuscated"""
@@ -56,10 +57,8 @@ def get_logger() -> logging.Logger:
 
 def get_db() -> MySQLConnection:
     """
-    Connects to the MySQL database using credentials from environment variables.
-
-    Returns:
-        mysql.connector.connection.MySQLConnection: The database connection object.
+    Connects to the MySQL database using credentials
+    from environmentvariables.
     """
     username = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
     password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
