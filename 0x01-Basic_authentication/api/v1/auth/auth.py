@@ -2,7 +2,7 @@
 """
 class to manage the API authentication
 """
-from flask import request  # type: ignore
+from flask import request
 from typing import List, TypeVar
 
 
@@ -10,19 +10,23 @@ class Auth():
     """class to manage the API authentication"""
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """public method require_auth"""
-        if path is None:
-            return True
-        if excluded_paths is None or excluded_paths == []:
+        if path is None or not excluded_paths:
             return True
         if path in excluded_paths:
             return False
 
-        if not path.endswith('/'):
-            path += '/'
+        path = path + '/' if not path.endswith('/') else path
 
-        for excluded_path in excluded_paths:
-            if path == excluded_path:
-                return False
+        for excl_path in excluded_paths:
+            if excl_path.endswith('*'):
+                norm_excl_path = excl_path[:-1]
+                if path.startswith(norm_excl_path):
+                    return False
+            else:
+                excl_path = excl_path + '/' if not\
+                    excl_path.endswith('/') else excl_path
+                if path == excl_path:
+                    return False
 
         return True
 
@@ -33,6 +37,6 @@ class Auth():
 
         return request.headers.get('Authorization', None)
 
-    def current_user(self, request=None) -> TypeVar('User'):  # type: ignore
+    def current_user(self, request=None) -> TypeVar('User'):
         """public method current_user"""
         return None
