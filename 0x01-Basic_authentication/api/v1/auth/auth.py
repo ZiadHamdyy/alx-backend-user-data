@@ -2,7 +2,7 @@
 """
 class to manage the API authentication
 """
-from flask import request # type: ignore
+from flask import request  # type: ignore
 from typing import List, TypeVar
 
 
@@ -25,7 +25,7 @@ class Auth():
                 return False
 
         return True
-    
+
     def authorization_header(self, request=None) -> str:
         """public method authorization_header"""
         if request is None:
@@ -33,6 +33,6 @@ class Auth():
 
         return request.headers.get('Authorization', None)
 
-    def current_user(self, request=None) -> TypeVar('User'): # type: ignore
+    def current_user(self, request=None) -> TypeVar('User'):  # type: ignore
         """public method current_user"""
         return None

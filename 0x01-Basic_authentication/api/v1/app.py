@@ -4,8 +4,8 @@ Route module for the API
 """
 from os import getenv
 from api.v1.views import app_views
-from flask import Flask, jsonify, abort, request # type: ignore
-from flask_cors import (CORS, cross_origin) # type: ignore
+from flask import Flask, jsonify, abort, request  # type: ignore
+from flask_cors import (CORS, cross_origin)  # type: ignore
 import os
 from os import getenv
 
@@ -19,6 +19,7 @@ AUTH_TYPE = getenv("AUTH_TYPE")
 if AUTH_TYPE == "auth":
     from api.v1.auth.auth import Auth
     auth = Auth()
+
 
 @app.errorhandler(404)
 def not_found(error) -> str:
@@ -43,10 +44,12 @@ def forbidden(error) -> str:
 
 @app.before_request
 def before_request_func():
+    """ filtering of each request"""
     if auth is None:
         return
 
-    exempt_paths = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+    exempt_paths = ['/api/v1/status/', '/api/v1/unauthorized/',
+                    '/api/v1/forbidden/']
     if not auth.require_auth(request.path, exempt_paths):
         return
 
