@@ -6,6 +6,7 @@ from os import getenv
 from api.v1.auth.auth import Auth
 from api.v1.auth.basic_auth import BasicAuth
 from api.v1.auth.session_auth import SessionAuth
+from api.v1.auth.session_exp_auth import SessionExpAuth
 from api.v1.views.session_auth import *
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
@@ -22,8 +23,10 @@ AUTH_TYPE = getenv("AUTH_TYPE")
 
 if AUTH_TYPE == "basic_auth":
     auth = BasicAuth()
-elif AUTH_TYPE == "session_auth":  # Add this condition
+elif AUTH_TYPE == "session_auth":
     auth = SessionAuth()
+elif AUTH_TYPE == "session_exp_auth":
+    auth = SessionExpAuth()
 else:
     auth = Auth()
 

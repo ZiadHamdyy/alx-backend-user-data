@@ -41,8 +41,8 @@ def login():
 
 @app_views.route('/auth_session/logout', methods=['DELETE'], strict_slashes=False)
 def logout():
-    """logout route"""
-    # Again, use current_app instead of from api.v1.app import auth
-    if not current_app.config['AUTH'].destroy_session(request):
+    """Handle the DELETE route for logout."""
+
+    if not auth.destroy_session(request):
         abort(404)
     return jsonify({}), 200
