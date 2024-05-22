@@ -2,11 +2,10 @@
 """
  Flask view that handles all routes for the Session authentication
 """
-from flask import jsonify, abort, request, make_response
+from flask import jsonify, abort, request, make_response, current_app
 from api.v1.views import app_views
 from models.user import User
 from os import getenv
-from api.v1.app import auth
 
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
