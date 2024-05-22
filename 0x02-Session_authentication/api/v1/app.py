@@ -7,6 +7,7 @@ from api.v1.auth.auth import Auth
 from api.v1.auth.basic_auth import BasicAuth
 from api.v1.auth.session_auth import SessionAuth
 from api.v1.auth.session_exp_auth import SessionExpAuth
+from api.v1.auth.session_db_auth import SessionDBAuth
 from api.v1.views.session_auth import *
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
@@ -17,6 +18,7 @@ from os import getenv
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
+
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
 AUTH_TYPE = getenv("AUTH_TYPE")
@@ -30,6 +32,12 @@ elif AUTH_TYPE == "session_exp_auth":
 else:
     auth = Auth()
 
+if AUTH_TYPE == "session_db_auth":
+    auth = SessionDBAuth()
+elif AUTH_TYPE == "session_exp_auth":
+    auth = SessionExpAuth()
+
+app.config['AUTH'] = auth
 excluded_paths = ['/api/v1/status/', '/api/v1/auth_session/login/']
 
 
